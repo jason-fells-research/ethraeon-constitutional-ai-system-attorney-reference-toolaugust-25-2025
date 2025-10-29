@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETHRAEON Constitutional AI System - Attorney Reference Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #000;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #003366, #004499);
+            color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,51,102,0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .attorney-notice {
+            background: linear-gradient(135deg, #e6f3ff, #cce7ff);
+            border: 3px solid #0066cc;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,102,204,0.2);
+        }
+        
+        .attorney-notice h3 {
+            color: #003366;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border-color: #0066cc;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .system-architecture {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .system-title {
+            font-size: 24px;
+            color: #003366;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .module-card {
+            background: linear-gradient(135deg, #e6f3ff, #f0f8ff);
+            border: 2px solid #0066cc;
+            border-radius: 10px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0,102,204,0.2);
+            background: linear-gradient(135deg, #cce7ff, #e0f0ff);
+        }
+        
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .module-card:hover::before {
+            left: 100%;
+        }
+        
+        .module-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 8px;
+        }
+        
+        .module-function {
+            font-size: 13px;
+            color: #004499;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+        
+        .module-specs {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .governance-framework {
+            background: linear-gradient(135deg, #fff0e6, #ffe0cc);
+            border: 3px solid #cc6600;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(204,102,0,0.2);
+        }
+        
+        .governance-title {
+            font-size: 22px;
+            color: #cc6600;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .governance-protocols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .protocol-card {
+            background: rgba(255,255,255,0.8);
+            border: 2px solid #cc6600;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .protocol-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #cc6600;
+            margin-bottom: 10px;
+        }
+        
+        .protocol-desc {
+            font-size: 13px;
+            color: #8b4513;
+            line-height: 1.4;
+        }
+        
+        .technical-claims {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .claims-title {
+            font-size: 22px;
+            color: #003366;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .claim-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #0066cc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .claim-item:hover {
+            background: linear-gradient(135deg, #e6f3ff, #d0e8ff);
+            transform: translateX(5px);
+        }
+        
+        .claim-number {
+            font-weight: bold;
+            color: #cc0000;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, white, #f8f9fa);
+            margin: 5% auto;
+            padding: 30px;
+            border: none;
+            border-radius: 16px;
+            width: 80%;
+            max-width: 700px;
+            animation: modalSlideIn 0.4s ease-out;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+        }
+        
+        .close:hover {
+            color: #000;
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 100;
+            box-shadow: 0 4px 16px rgba(40,167,69,0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .print-button:hover {
+            background: linear-gradient(135deg, #20c997, #17a2b8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40,167,69,0.6);
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        @media print {
+            .print-button, .modal { display: none; }
+            body { 
+                background: white !important; 
+                padding: 0.5in !important;
+                font-size: 12pt !important;
+                line-height: 1.4 !important;
+                color: #000 !important;
+            }
+            .header { 
+                background: #003366 !important;
+                color: white !important;
+                page-break-inside: avoid;
+                margin-bottom: 20pt;
+            }
+            .attorney-notice {
+                background: #f0f8ff !important;
+                border: 2px solid #0066cc !important;
+                page-break-inside: avoid;
+                margin-bottom: 20pt;
+            }
+            .performance-metrics {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 10pt !important;
+                page-break-inside: avoid;
+                margin-bottom: 20pt;
+            }
+            .metric-card {
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                padding: 10pt !important;
+                box-shadow: none !important;
+            }
+            .system-architecture {
+                background: white !important;
+                page-break-inside: avoid;
+                margin-bottom: 20pt;
+            }
+            .modules-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8pt !important;
+                page-break-inside: avoid;
+            }
+            .module-card {
+                background: #f8f9fa !important;
+                border: 1px solid #0066cc !important;
+                padding: 8pt !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            .module-card:hover::before { display: none; }
+            .governance-framework {
+                background: #fff8f0 !important;
+                border: 2px solid #cc6600 !important;
+                page-break-inside: avoid;
+                margin-bottom: 20pt;
+            }
+            .governance-protocols {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 10pt !important;
+            }
+            .protocol-card {
+                background: white !important;
+                border: 1px solid #cc6600 !important;
+                padding: 8pt !important;
+            }
+            .technical-claims {
+                background: white !important;
+                page-break-inside: avoid;
+            }
+            .claim-item {
+                background: #f8f9fa !important;
+                border-left: 3px solid #0066cc !important;
+                page-break-inside: avoid;
+                margin-bottom: 8pt !important;
+            }
+            .footer {
+                background: #6c757d !important;
+                color: white !important;
+                page-break-inside: avoid;
+                margin-top: 20pt;
+            }
+            .system-title, .governance-title, .claims-title {
+                page-break-after: avoid;
+            }
+            h1, h2, h3 { page-break-after: avoid; }
+            .metric-value { font-size: 18pt !important; }
+            .module-title { font-size: 12pt !important; }
+            .protocol-name { font-size: 11pt !important; }
+        }
+        
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            .performance-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .governance-protocols {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">📄 Print Reference</button>
+
+    <div class="header">
+        <h1>ETHRAEON Constitutional AI System</h1>
+        <p>Attorney Reference Tool - USPTO Utility Patent Application</p>
+        <p>Distributed AI Architecture with Constitutional Enforcement</p>
+        <p><strong>Inventor:</strong> S. Jason Prohaska | <strong>Company:</strong> Ingombrante Systems LLC</p>
+        <p><strong>Filing Date:</strong> August 25, 2025 | <strong>Framework:</strong> GENESIS ∞.0 + ΔSUM Codex v1.0</p>
+    </div>
+
+    <div class="attorney-notice">
+        <h3>For Attorney Reference - Technical Innovation Summary</h3>
+        <p><strong>Patent Focus:</strong> This is a technical innovation covering a 14-module distributed AI architecture with real-time constitutional enforcement protocols, not just methodology.</p>
+        <p><strong>Key Differentiator:</strong> First AI system with sub-5ms constitutional enforcement integrated at the foundational architecture level.</p>
+        <p><strong>Commercial Application:</strong> Production-ready system achieving 102,000+ operations/second with cross-platform synchronization.</p>
+    </div>
+
+    <div class="performance-metrics">
+        <div class="metric-card">
+            <div class="metric-value">102K+</div>
+            <div class="metric-label">Operations/Second</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">&lt;5ms</div>
+            <div class="metric-label">Constitutional Enforcement</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">&lt;10ms</div>
+            <div class="metric-label">Emergency Response</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">99.97%</div>
+            <div class="metric-label">Arbitration Accuracy</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">195+</div>
+            <div class="metric-label">Countries Supported</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">14</div>
+            <div class="metric-label">Modular Components</div>
+        </div>
+    </div>
+
+    <div class="system-architecture">
+        <h2 class="system-title">14-Module Distributed Architecture</h2>
+        <div class="modules-grid">
+            <div class="module-card" onclick="showModuleDetails('M1')">
+                <div class="module-title">M1: Intake Framework</div>
+                <div class="module-function">Constitutional Data Processing</div>
+                <div class="module-specs">• 50K req/sec throughput<br>• 100% PII protection<br>• &lt;5ms latency</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M2')">
+                <div class="module-title">M2: Spawning Engine</div>
+                <div class="module-function">Instance Generation</div>
+                <div class="module-specs">• 10K instances/sec<br>• 100% constraint embedding<br>• Auto-scaling resources</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M3')">
+                <div class="module-title">M3: Arbitration Logic</div>
+                <div class="module-function">Constitutional Authority</div>
+                <div class="module-specs">• 99.97% accuracy<br>• Human override always<br>• Real-time response</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M4')">
+                <div class="module-title">M4: Runtime Orchestration</div>
+                <div class="module-function">System Coordination</div>
+                <div class="module-specs">• 99.95% uptime<br>• Constitutional state mgmt<br>• Seamless transitions</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M5')">
+                <div class="module-title">M5: Monitoring Kernel</div>
+                <div class="module-function">System Surveillance</div>
+                <div class="module-specs">• 1TB/day processing<br>• Predictive analytics<br>• Real-time compliance</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M6')">
+                <div class="module-title">M6: Context Bridge</div>
+                <div class="module-function">Memory Management</div>
+                <div class="module-specs">• Cross-session transfer<br>• 100% integrity<br>• Constitutional safety</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M7')">
+                <div class="module-title">M7: Cultural Adaptation</div>
+                <div class="module-function">Global Intelligence</div>
+                <div class="module-specs">• 195+ countries<br>• 7,000+ languages<br>• Local compliance</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M8')">
+                <div class="module-title">M8: Feedback Systems</div>
+                <div class="module-function">Adaptive Learning</div>
+                <div class="module-specs">• Real-time learning<br>• Ethics loop closure<br>• Continuous quality</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M9')">
+                <div class="module-title">M9: Prompt Operations</div>
+                <div class="module-function">Request Processing</div>
+                <div class="module-specs">• Role-based routing<br>• Constitutional filtering<br>• Human oversight</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M10')">
+                <div class="module-title">M10: Sector Logic</div>
+                <div class="module-function">Business Intelligence</div>
+                <div class="module-specs">• 6 major sectors<br>• Automated proposals<br>• Market analytics</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M11')">
+                <div class="module-title">M11: Identity Management</div>
+                <div class="module-function">Security & Access</div>
+                <div class="module-specs">• Multi-factor auth<br>• Adaptive sessions<br>• Zero-trust control</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M12')">
+                <div class="module-title">M12: Financial Processing</div>
+                <div class="module-function">Legal & Financial</div>
+                <div class="module-specs">• Contract validation<br>• Automated pricing<br>• Legal compliance</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('M13')">
+                <div class="module-title">M13: Output Layer</div>
+                <div class="module-function">Multi-Modal Output</div>
+                <div class="module-specs">• Multi-modal formats<br>• Quality assurance<br>• Global localization</div>
+            </div>
+            
+            <div class="module-card" onclick="showModuleDetails('Governance')">
+                <div class="module-title">Constitutional Governance</div>
+                <div class="module-function">Core Innovation Framework</div>
+                <div class="module-specs">• T5-rigidity protocol<br>• VELKOR safety barriers<br>• SOVRIN-KAIROS governance</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="governance-framework">
+        <h2 class="governance-title">Constitutional Governance Framework - Core Innovation</h2>
+        <div class="governance-protocols">
+            <div class="protocol-card">
+                <div class="protocol-name">T5-Rigidity Protocol</div>
+                <div class="protocol-desc">Real-time constitutional enforcement with sub-5ms validation across 50,000+ operations/second. Proactive violation prevention, not reactive detection.</div>
+            </div>
+            
+            <div class="protocol-card">
+                <div class="protocol-name">VELKOR Safety Barriers</div>
+                <div class="protocol-desc">Passive monitoring system with emergency intervention capability &lt;10ms. Operates as dormant guardian activating only when boundaries threatened.</div>
+            </div>
+            
+            <div class="protocol-card">
+                <div class="protocol-name">SOVRIN-KAIROS Governance</div>
+                <div class="protocol-desc">Temporal governance enabling recursive AI self-monitoring with mandatory human authority mechanisms and temporal safety protocols.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="technical-claims">
+        <h2 class="claims-title">Key Patent Claims - Technical Innovation</h2>
+        
+        <div class="claim-item">
+            <span class="claim-number">Claim 1:</span>
+            A distributed AI system comprising fourteen modular components configured for intake, spawning, arbitration, orchestration, monitoring, adaptation, and output; wherein a constitutional enforcement protocol validates operations within &lt;5ms.
+        </div>
+        
+        <div class="claim-item">
+            <span class="claim-number">Claim 2:</span>
+            A method for enforcing constitutional compliance in distributed AI systems, comprising receiving input in an intake module; spawning an instance with embedded enforcement constraints; applying &lt;5ms enforcement.
+        </div>
+        
+        <div class="claim-item">
+            <span class="claim-number">Claim 3:</span>
+            A non-transitory computer-readable medium containing instructions to instantiate fourteen modules; enforce constitutional protocols; perform safety monitoring with emergency response.
+        </div>
+        
+        <div class="claim-item">
+            <span class="claim-number">Technical Innovation:</span>
+            First AI system with integrated constitutional governance at foundational architecture level, enabling real-time enforcement rather than post-hoc monitoring. Cross-platform synchronization across GPT, Claude, Ollama with vendor-agnostic implementation.
+        </div>
+    </div>
+
+    <!-- Modal for module details -->
+    <div id="moduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="moduleContent"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>ETHRAEON Constitutional AI System - Patent Application Reference</strong></p>
+        <p>Technical Innovation: 14-Module Distributed Architecture with Constitutional Enforcement</p>
+        <p>Attorney Reference Tool - USPTO Utility Patent Application</p>
+        <p>Performance: 102,000+ ops/sec | Enforcement: &lt;5ms | Emergency Response: &lt;10ms</p>
+    </div>
+
+    <script>
+        function showModuleDetails(moduleId) {
+            const moduleData = {
+                'M1': {
+                    title: 'M1: Intake Framework - Constitutional Data Processing',
+                    description: 'Secure data ingestion with real-time PII protection and constitutional validation.',
+                    technical: [
+                        'Throughput: 50,000 requests/second with <5ms latency',
+                        'PII Protection: 100% automated detection and masking',
+                        'Constitutional Validation: Real-time rule checking',
+                        'Classification: Automated content categorization',
+                        'Human Oversight: Validation protocols integrated'
+                    ],
+                    implementation: 'NoSQL database schema with encrypted data streams, gRPC API endpoints, constitutional rule validation engine.',
+                    patents: 'Novel integration of constitutional enforcement at data intake level with sub-5ms validation latency.'
+                },
+                'M3': {
+                    title: 'M3: Arbitration Logic - Constitutional Decision Authority',
+                    description: 'Constitutional decision-making with human override capabilities and 99.97% accuracy.',
+                    technical: [
+                        'Decision Accuracy: 99.97% with real-time processing',
+                        'Human Override: Always available with escalation paths',
+                        'Constitutional Compliance: Embedded rule enforcement',
+                        'Conflict Resolution: Automated with human fallback',
+                        'Audit Trail: Complete decision logging'
+                    ],
+                    implementation: 'Machine learning decision trees with constitutional constraint integration, human escalation APIs.',
+                    patents: 'First AI system with guaranteed human override and constitutional decision authority at arbitration level.'
+                },
+                'Governance': {
+                    title: 'Constitutional Governance Framework - Core Patent Innovation',
+                    description: 'Integrated governance system combining T5-rigidity, VELKOR, and SOVRIN-KAIROS protocols.',
+                    technical: [
+                        'T5-Rigidity: Sub-5ms constitutional enforcement across 50,000+ validations/second',
+                        'VELKOR Barriers: Passive monitoring with <10ms emergency intervention',
+                        'SOVRIN-KAIROS: Recursive monitoring every 10ms with human oversight',
+                        'Cross-Platform: Unified governance across GPT, Claude, Ollama',
+                        'Cultural Intelligence: 195+ countries, 7,000+ languages supported'
+                    ],
+                    implementation: 'Distributed governance architecture with real-time monitoring, emergency response systems, human authority integration.',
+                    patents: 'Revolutionary approach to AI governance with proactive constitutional enforcement rather than reactive monitoring. First system integrating temporal governance with human authority preservation.'
+                }
+            };
+
+            const module = moduleData[moduleId] || {
+                title: `${moduleId}: System Component`,
+                description: 'Technical module in the ETHRAEON distributed architecture.',
+                technical: ['Performance optimized for constitutional compliance', 'Integration with governance framework', 'Human oversight mechanisms'],
+                implementation: 'Modular architecture with constitutional enforcement integration.',
+                patents: 'Part of novel 14-module distributed AI architecture with constitutional governance.'
+            };
+
+            document.getElementById('moduleContent').innerHTML = `
+                <h2>${module.title}</h2>
+                <p style="margin: 15px 0; font-size: 16px; color: #333;"><strong>Description:</strong> ${module.description}</p>
+                
+                <h3 style="color: #0066cc; margin: 20px 0 10px 0;">Technical Specifications:</h3>
+                <ul style="margin-left: 20px;">
+                    ${module.technical.map(spec => `<li style="margin: 8px 0;">${spec}</li>`).join('')}
+                </ul>
+                
+                <h3 style="color: #cc6600; margin: 20px 0 10px 0;">Implementation Details:</h3>
+                <p style="margin: 10px 0; font-style: italic; color: #555;">${module.implementation}</p>
+                
+                <h3 style="color: #cc0000; margin: 20px 0 10px 0;">Patent Innovation:</h3>
+                <p style="margin: 10px 0; font-weight: 600; color: #333;">${module.patents}</p>
+            `;
+            
+            document.getElementById("moduleModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("moduleModal").style.display = "none";
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById("moduleModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Add loading animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.module-card, .metric-card, .protocol-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
