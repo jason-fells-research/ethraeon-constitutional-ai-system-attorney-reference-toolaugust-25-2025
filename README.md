@@ -1,14 +1,14 @@
 # ethraeon-constitutional-ai-system-attorney-reference-toolaugust-25-2025
 
-The attorney reference tool of 25 August 2025, prepared as a reference for patent counsel.
+The attorney reference tool of 25 August 2025.
 
 ## Contents
 
 `src/` (1 file), the built `dist/` (1 file), a README and one GitHub workflow.
 
-## Place in the estate
+## Planned place in the estate
 
-Legal estate: https://genthos-legal.ethraeon.ai/.
+It is public today. After the stop card its visibility changes to private, and its content moves to the legal estate, verified by hash.
 
 ## Contact
 
